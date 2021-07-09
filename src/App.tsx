@@ -1,26 +1,42 @@
 import { useEffect, useState } from "react";
 
-interface Joke {
-  id: number;
-  type: string;
-  setup: string;
-  punchline: string;
+// interface Joke {
+//   id: number;
+//   type: string;
+//   setup: string;
+//   punchline: string;
+// }
+
+interface Quote {
+  quote: string
 }
 
 function App() {
-  const [joke, setJoke] = useState<Joke>();
+  // const [joke, setJoke] = useState<Joke>();
+  const [quote, setQuote] = useState<Quote>()
+
+  // useEffect(() => {
+  //   const fetchJoke = async () => {
+  //     const response = await fetch(
+  //       "https://official-joke-api.appspot.com/jokes/general/random"
+  //     );
+  //     const jsonBody: Joke[] = await response.json();
+  //     setJoke(jsonBody[0]);
+  //   };
+
+  //   fetchJoke();
+  // }, []);
 
   useEffect(() => {
-    const fetchJoke = async () => {
-      const response = await fetch(
-        "https://official-joke-api.appspot.com/jokes/general/random"
+    const fetchQuote = async () => {
+      const response = await fetch (
+        "https://api.kanye.rest/"
       );
-      const jsonBody: Joke[] = await response.json();
-      setJoke(jsonBody[0]);
+      const jsonBody: Quote = await response.json();
+      setQuote(jsonBody)
     };
-
-    fetchJoke();
-  }, []);
+    fetchQuote()
+  }, []) // this empty array is needed so that the callbacks are not all run on the first render  (stop infinate looping of object values)
 
   // useEffect(() => {
   //   fetch("https://official-joke-api.appspot.com/jokes/general/random")
@@ -30,7 +46,12 @@ function App() {
 
   return (
     <>
-      <h1>Joke app</h1>
+    <h1>Kanye Quote</h1>
+    {quote && 
+    
+    <b>{quote.quote}</b>}
+    {/* everything below is for the fetchJoke function*/}
+      {/* <h1>Joke app</h1>
       {joke && (
         // This is a conditional rendering strategy
         //  using 'short-circuiting': if the left-hand
@@ -48,7 +69,7 @@ function App() {
             <i>{joke.punchline}</i>
           </p>
         </>
-      )}
+      )} */}
     </>
   );
 }
